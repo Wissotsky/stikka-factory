@@ -24,3 +24,5 @@ KeyError: 'job_queue'
 ## DONE
 
 Remove PDF file support(not worth the external dependency)
+
+Remove AI Image Gen related features

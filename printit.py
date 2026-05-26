@@ -48,7 +48,6 @@ def get_enabled_tabs():
         "Label",
         "Sticker",
         "Sticker Pro",
-        "Text2image",
         "Webcam",
         "Cat",
         "Dog",
@@ -305,26 +304,6 @@ else:
                         preper_image=preper_image,
                         print_image=print_image,
                         img_concat_v=img_concat_v,
-                    )
-                elif tab_name == "Text2image":
-                    import tabs.text2image as text2image_module
-                    # For text2image, we need to define submit function
-                    def submit():
-                        st.session_state.prompt = st.session_state.widget
-                        st.session_state.widget = ""
-                        st.session_state.generated_image = None
-                    
-                    if "prompt" not in st.session_state:
-                        st.session_state.prompt = ""
-                    if "generated_image" not in st.session_state:
-                        st.session_state.generated_image = None
-                    
-                    text2image_module.render(
-                        submit_func=submit,
-                        generate_image_func=text2image_module.generate_image,
-                        preper_image=preper_image,
-                        print_image=print_image,
-                        printer_info=selected_printer,
                     )
                 elif tab_name == "Webcam":
                     import tabs.webcam as webcam_module

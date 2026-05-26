@@ -6,21 +6,10 @@
 title = "✨ Stikka Centraal ✨"
 privacy_mode = true
 debug_mode = false
-enable_comfy = true
 
 [ui]
 history_limit = 15
 items_per_page = 5
-
-[txt2img]
-# URL for Stable Diffusion API endpoint
-url = "http://localhost:7860"
-
-[comfy]
-# URL for Comfy AI API endpoint
-url = "https://ai.stikka.art"
-# Polling interval in seconds for checking workflow status
-poll_interval = 1
 
 [logging]
 file = false
@@ -36,7 +25,6 @@ enabled = [
     "Sticker Pro",
     "Tiling",
     "Label",
-    "Text2image",
     "Webcam",
     "Cat",
     "Dog",

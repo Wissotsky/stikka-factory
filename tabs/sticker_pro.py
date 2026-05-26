@@ -1,4 +1,4 @@
-"""Sticker Pro tab content - advanced image masking and processing with PDF support."""
+"""Sticker Pro tab content - advanced image masking and processing"""
 
 import logging
 import streamlit as st
@@ -89,8 +89,8 @@ def render(print_image,printer_info, apply_threshold, add_border, apply_histogra
     
     # Allow file upload or URL input
     uploaded_file = st.file_uploader(
-        "Choose an image or PDF for processing...", 
-        type=["jpg", "jpeg", "png", "gif", "webp", "bmp", "pdf"],
+        "Choose an image for processing...", 
+        type=["jpg", "jpeg", "png", "gif", "webp", "bmp"],
         key="sticker_pro_uploader"
     )
     image_url = st.text_input("Or enter an HTTPS image URL to fetch and process", key="sticker_pro_url")
@@ -100,29 +100,6 @@ def render(print_image,printer_info, apply_threshold, add_border, apply_histogra
     
     try:
         if uploaded_file is not None:
-            # Handle PDF files
-            if uploaded_file.type == "application/pdf":
-                try:
-                    import fitz  # PyMuPDF
-                    
-                    st.info("PDF file detected. Converting the first page to an image.")
-                    dpi_selected = st.selectbox("Select the DPI for the conversion", [72, 92, 150, 300, 600], index=1, key="sticker_pro_pdf_dpi")
-                    
-                    # Open the PDF file
-                    pdf_document = fitz.open(stream=uploaded_file.read(), filetype="pdf")
-                    
-                    # Convert the first page to an image
-                    page = pdf_document.load_page(0)
-                    pix = page.get_pixmap(dpi=dpi_selected)
-                    image = Image.open(io.BytesIO(pix.tobytes("png")))
-                    
-                except ImportError:
-                    st.error("PyMuPDF (fitz) is not installed. Install it with: pip install pymupdf")
-                    st.stop()
-                except Exception as e:
-                    st.error(f"Error converting PDF: {str(e)}")
-                    st.stop()
-            else:
                 # Process regular image file
                 image = Image.open(uploaded_file)
         elif image_url:

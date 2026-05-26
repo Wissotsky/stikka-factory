@@ -40,10 +40,10 @@ def render(preper_image, print_image, printer_info, determine_tile_rows, split_i
 
     label_width = printer_info['label_width']
     
-    # Allow the user to upload an image or PDF
+    # Allow the user to upload an image
     uploaded_image = st.file_uploader(
-        "Choose an image file or PDF to tile", 
-        type=["png", "jpg", "jpeg", "gif", "webp", "pdf"],
+        "Choose an image to tile", 
+        type=["png", "jpg", "jpeg", "gif", "webp"],
         key="tiling_file_uploader"
     )
     
@@ -54,31 +54,8 @@ def render(preper_image, print_image, printer_info, determine_tile_rows, split_i
     image_to_process = None
     
     if uploaded_image is not None:
-        # Handle PDF files
-        if uploaded_image.type == "application/pdf":
-            try:
-                import fitz  # PyMuPDF
-                
-                st.info("PDF file detected. Converting the first page to an image.")
-                dpi_selected = st.selectbox("Select the DPI for the conversion", [72, 92, 150, 300, 600], index=1, key="tiling_pdf_dpi")
-                
-                # Open the PDF file
-                pdf_document = fitz.open(stream=uploaded_image.read(), filetype="pdf")
-                
-                # Convert the first page to an image
-                page = pdf_document.load_page(0)
-                pix = page.get_pixmap(dpi=dpi_selected)
-                image_to_process = Image.open(io.BytesIO(pix.tobytes("png"))).convert("RGB")
-                
-            except ImportError:
-                st.error("PyMuPDF (fitz) is not installed. Install it with: pip install pymupdf")
-                st.stop()
-            except Exception as e:
-                st.error(f"Error converting PDF: {str(e)}")
-                st.stop()
-        else:
-            # Convert the uploaded file to a PIL Image
-            image_to_process = Image.open(uploaded_image).convert("RGB")
+        # Convert the uploaded file to a PIL Image
+        image_to_process = Image.open(uploaded_image).convert("RGB")
     
     elif image_url:
         # Try to fetch and process image from URL

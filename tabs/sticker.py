@@ -84,9 +84,9 @@ def render(preper_image, print_image,printer_info):
             del st.session_state.selected_image_path
             st.rerun()
 
-    # Allow the user to upload an image or PDF
+    # Allow the user to upload an image
     uploaded_image = st.file_uploader(
-        "Choose an image file or PDF to print", type=["png", "jpg", "gif", "webp", "pdf"],
+        "Choose an image file to print", type=["png", "jpg", "gif", "webp"],
         key="sticker_file_uploader"
     )
     
@@ -98,31 +98,8 @@ def render(preper_image, print_image,printer_info):
         image_to_process = None
         original_filename_without_extension = os.path.splitext(uploaded_image.name)[0]
         
-        # Handle PDF files
-        if uploaded_image.type == "application/pdf":
-            try:
-                import fitz  # PyMuPDF
-                
-                st.info("PDF file detected. Converting the first page to an image.")
-                dpi_selected = st.selectbox("Select the DPI for the conversion", [72, 92, 150, 300, 600], index=1)
-                
-                # Open the PDF file
-                pdf_document = fitz.open(stream=uploaded_image.read(), filetype="pdf")
-                
-                # Convert the first page to an image
-                page = pdf_document.load_page(0)
-                pix = page.get_pixmap(dpi=dpi_selected)
-                image_to_process = Image.open(io.BytesIO(pix.tobytes("png")))
-                
-            except ImportError:
-                st.error("PyMuPDF (fitz) is not installed. Install it with: pip install pymupdf")
-                st.stop()
-            except Exception as e:
-                st.error(f"Error converting PDF: {str(e)}")
-                st.stop()
-        else:
-            # Convert the uploaded file to a PIL Image
-            image_to_process = Image.open(uploaded_image).convert("RGB")
+        # Convert the uploaded file to a PIL Image # TODO: Why is this different between sticker and sticker_pro
+        image_to_process = Image.open(uploaded_image).convert("RGB")
 
         if image_to_process:
             grayscale_image, dithered_image = preper_image(image_to_process, label_width=printer_info['label_width'])

@@ -11,5 +11,4 @@ dependencies = [
     "pyusb>=1.2.1",
     "qrcode>=7.4.2",
     "requests>=2.31.0",
-    "pymupdf>=1.23.0",
 ]

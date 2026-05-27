@@ -13,20 +13,29 @@ logger = logging.getLogger("sticker_factory.tabs.openverse")
 
 from utils import fetch_image_from_url
 
-def render(preper_image,printer_info, print_image):
+def render(preper_image,printer_info, print_image, preset_query=None):
+    search_query = None
+    allow_custom_search = True
+    visible_name_string = "Openverse"
+
+    if preset_query:
+        search_query = preset_query
+        visible_name_string = preset_query
+        allow_custom_search = False
     """Openverse tab"""
-    st.subheader(":printer: Openverse")
-    st.caption("Find images from https://openverse.org/")
+    st.subheader(f":printer: {visible_name_string}")
+    st.caption("Find images from https://openverse.org/" if allow_custom_search else f"{visible_name_string} images from https://openverse.org/")
     
     # Initialize session state for image if not exists
     if 'openverse_image_grayscale' not in st.session_state:
         st.session_state.openverse_image_grayscale = None
         st.session_state.openverse_image_dithered = None
 
-    search_query = st.text_input("Search images")
+    if allow_custom_search:
+        search_query = st.text_input("Search images")
     
     if search_query:
-        if st.button("Fetch openverse"):
+        if st.button(f"Fetch {visible_name_string}"):
             try:
                 random_int = random.randint(1,240);
                 # Get image URL
@@ -52,7 +61,7 @@ def render(preper_image,printer_info, print_image):
             
         # Show image and print button if we have a img
         if st.session_state.openverse_image_dithered is not None:
-            st.image(st.session_state.openverse_image_dithered)
-            if st.button("Print Img", key="print_img"):
+            st.image(st.session_state.openverse_image_dithered, caption=f"{visible_name_string}")
+            if st.button(f"Print {visible_name_string} Img"):
                 print_image(st.session_state.openverse_image_grayscale, printer_info, dither=True)
                 st.success("Image sent to printer!")

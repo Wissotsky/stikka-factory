@@ -312,21 +312,6 @@ else:
                         preper_image=preper_image,
                         print_image=print_image,
                     )
-                elif tab_name == "Cat":
-                    import tabs.cat as cat_module
-                    cat_module.render(
-                        printer_info=selected_printer,
-                        preper_image=preper_image,
-                        print_image=print_image,
-                    )
-                elif tab_name == "Dog":
-                    import tabs.dog as dog_module
-                    dog_module.render(
-                        printer_info=selected_printer,
-                        preper_image=preper_image,
-                        print_image=print_image,
-                    )
-
                 elif tab_name == "Sticker Pro":
                     import tabs.sticker_pro as sticker_pro_module    
                     sticker_pro_module.render(
@@ -376,6 +361,19 @@ else:
                         preper_image=preper_image,
                         print_image=print_image,
                     )
+                elif tab_name.startswith("?"):
+                    parsed_tab_name = tab_name[1::].split(":")
+                    if parsed_tab_name[0] == "Openverse":
+                        query = parsed_tab_name[1]
+                        import tabs.openverse as openverse_module
+                        openverse_module.render(
+                            printer_info=selected_printer,
+                            preper_image=preper_image,
+                            print_image=print_image,
+                            preset_query = query,
+                        )
+                    else:
+                        st.warning(f"Unknown tab command {tab_name}")
 
                 else:
                     st.warning(f"Tab '{tab_name}' is not implemented yet")

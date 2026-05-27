@@ -11,6 +11,8 @@ import random
 
 logger = logging.getLogger("sticker_factory.tabs.openverse")
 
+from utils import fetch_image_from_url
+
 def render(preper_image,printer_info, print_image):
     """Openverse tab"""
     st.subheader(":printer: Openverse")
@@ -37,7 +39,7 @@ def render(preper_image,printer_info, print_image):
                 
                 print(f"Fetched openverse image URL: {image_url}")
                 # Download and process image
-                img = Image.open(BytesIO(requests.get(image_url).content)).convert('RGB')
+                img = fetch_image_from_url(image_url)
                 grayscale_image, dithered_image = preper_image(img, label_width=printer_info['label_width'])
                 
                 # Store in session state

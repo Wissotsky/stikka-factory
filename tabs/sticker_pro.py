@@ -9,6 +9,7 @@ from PIL import Image, ImageOps, ImageDraw, ImageFont
 
 logger = logging.getLogger("sticker_factory.tabs.sticker_pro")
 
+from utils import fetch_image_from_url
 
 def make_meme_text(image, top_text, bottom_text, font_size=20, outline_width=3):
     """Add Impact-style meme text to top and bottom of image."""
@@ -103,24 +104,7 @@ def render(print_image,printer_info, apply_threshold, add_border, apply_histogra
                 # Process regular image file
                 image = Image.open(uploaded_file)
         elif image_url:
-            # Validate and fetch image from URL
-            if not image_url.startswith('https://'):
-                st.error('Only HTTPS URLs are allowed for security')
-            else:
-                try:
-                    response = requests.get(image_url, timeout=10)
-                    response.raise_for_status()
-                    
-                    # Verify content type is an image
-                    content_type = response.headers.get('content-type', '')
-                    if not content_type.startswith('image/'):
-                        st.error('URL does not point to a valid image')
-                    else:
-                        image = Image.open(io.BytesIO(response.content))
-                except requests.exceptions.RequestException as e:
-                    st.error(f'Error fetching image: {str(e)}')
-                except Exception as e:
-                    st.error(f'Error processing image: {str(e)}')
+            image = fetch_image_from_url(image_url)
     except Exception as e:
         st.error(f'Error loading image: {str(e)}')
         st.info("Please try another image or format")

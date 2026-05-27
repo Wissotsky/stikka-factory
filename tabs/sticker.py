@@ -8,30 +8,7 @@ import io
 
 logger = logging.getLogger("sticker_factory.tabs.sticker")
 
-
-def fetch_image_from_url(url):
-    """Validate and fetch image from URL."""
-    if not url.startswith('https://'):
-        st.error('Only HTTPS URLs are allowed for security')
-        return None
-        
-    try:
-        import requests
-        from io import BytesIO
-        response = requests.get(url, timeout=10)
-        response.raise_for_status()
-        
-        # Verify content type is an image
-        content_type = response.headers.get('content-type', '')
-        if not content_type.startswith('image/'):
-            st.error('URL does not point to a valid image')
-            return None
-            
-        return Image.open(BytesIO(response.content)).convert("RGB")
-    except Exception as e:
-        st.error(f'Error fetching image: {str(e)}')
-        return None
-
+from utils import fetch_image_from_url
 
 def render(preper_image, print_image,printer_info):
     """Render the Sticker tab."""

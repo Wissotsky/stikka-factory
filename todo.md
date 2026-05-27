@@ -26,3 +26,9 @@ KeyError: 'job_queue'
 Remove PDF file support(not worth the external dependency)
 
 Remove AI Image Gen related features
+
+Fetch images from openverse
+
+Replace cat and dog image apis with openverse
+
+Got rid of secrets.toml and related code

@@ -5,6 +5,8 @@ import os
 from PIL import Image
 from datetime import datetime
 
+from config_manager import ITEMS_PER_PAGE
+
 
 def render(list_saved_images, print_image, preper_image):
     """Render the History tab."""
@@ -21,7 +23,7 @@ def render(list_saved_images, print_image, preper_image):
         st.session_state.filter_duplicates = True
     
     # Get pagination settings from secrets with defaults
-    items_per_page = st.secrets.get("items_per_page", 5)  # Default to 3x3 grid
+    items_per_page = ITEMS_PER_PAGE  # Default to 3x3 grid
     
     # Search, filter, and refresh controls
     col1, col2, col3 = st.columns([3, 2, 1])

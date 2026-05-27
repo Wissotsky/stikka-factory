@@ -4,8 +4,8 @@
 
 [app]
 title = "✨ Stikka Centraal ✨"
-privacy_mode = true
-debug_mode = false
+privacy_mode = false
+debug_mode = true
 
 [ui]
 history_limit = 15

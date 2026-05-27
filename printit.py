@@ -155,17 +155,6 @@ def find_url(string):
 # STREAMLIT APP
 # ============================================================================
 
-if not os.path.exists(".streamlit/secrets.toml"):
-    st.error("⚠️ No secrets.toml file found!")
-    st.info("""
-    Please set up your `.streamlit/secrets.toml` file:
-    1. Copy the example file: `cp .streamlit/secrets.toml.example .streamlit/secrets.toml`
-    2. Edit the file with your settings
-    
-    The app will try to auto-detect your printer's label type, but you can override it in secrets.toml if needed.
-    See the example file for all available options and their descriptions.
-    """)
-
 st.title(f":rainbow[**{APP_TITLE}**]")
 st.subheader(":primary[:heart: Kleben und kleben lassen :heart:]")
 

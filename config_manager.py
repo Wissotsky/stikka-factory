@@ -37,6 +37,7 @@ PRIVACY_MODE = APP_CONFIG.get("privacy_mode", True)
 DEBUG_MODE = APP_CONFIG.get("debug_mode", False)
 APP_TITLE = APP_CONFIG.get("title", "STICKER FACTORY")
 HISTORY_LIMIT = UI_CONFIG.get("history_limit", 15)
+ITEMS_PER_PAGE = UI_CONFIG.get("items_per_page",5)
 
 ENABLE_FILE_LOGGING = LOGGING_CONFIG.get("file", False)
 FILE_LOG_LEVEL = LOGGING_CONFIG.get("file_level", "WARNING")

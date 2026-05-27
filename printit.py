@@ -369,6 +369,14 @@ else:
                 elif tab_name == "FAQ":
                     import tabs.faq as faq_module
                     faq_module.render()
+                elif tab_name == "Openverse":
+                    import tabs.openverse as openverse_module
+                    openverse_module.render(
+                        printer_info=selected_printer,
+                        preper_image=preper_image,
+                        print_image=print_image,
+                    )
+
                 else:
                     st.warning(f"Tab '{tab_name}' is not implemented yet")
             except Exception as e:

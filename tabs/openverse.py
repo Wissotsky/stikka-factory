@@ -1,0 +1,56 @@
+"""Openverse tab content."""
+
+import logging
+import streamlit as st
+import requests
+from io import BytesIO
+from PIL import Image
+import os
+
+import random
+
+logger = logging.getLogger("sticker_factory.tabs.openverse")
+
+def render(preper_image,printer_info, print_image):
+    """Openverse tab"""
+    st.subheader(":printer: Openverse")
+    st.caption("Find images from https://openverse.org/")
+    
+    # Initialize session state for image if not exists
+    if 'openverse_image_grayscale' not in st.session_state:
+        st.session_state.openverse_image_grayscale = None
+        st.session_state.openverse_image_dithered = None
+
+    search_query = st.text_input("Search images")
+    
+    if search_query:
+        if st.button("Fetch openverse"):
+            try:
+                random_int = random.randint(1,240);
+                # Get image URL
+                response = requests.get(
+                    "https://api.openverse.org/v1/images/",
+                    params={"q":search_query,"page":random_int,"page_size":1}
+                )
+                response.raise_for_status()
+                image_url = response.json()["results"][0]["url"]
+                
+                print(f"Fetched openverse image URL: {image_url}")
+                # Download and process image
+                img = Image.open(BytesIO(requests.get(image_url).content)).convert('RGB')
+                grayscale_image, dithered_image = preper_image(img, label_width=printer_info['label_width'])
+                
+                # Store in session state
+                st.session_state.openverse_image_grayscale = grayscale_image
+                st.session_state.openverse_image_dithered = dithered_image
+                
+            except Exception as e:
+                logger.error(f"Error fetching img: {str(e)}")
+                st.error(f"Error fetching img: {str(e)}")
+            
+        # Show image and print button if we have a img
+        if st.session_state.openverse_image_dithered is not None:
+            st.image(st.session_state.openverse_image_dithered)
+            if st.button("Print Img", key="print_img"):
+                print_image(st.session_state.openverse_image_grayscale, printer_info, dither=True)
+                st.success("Image sent to printer!")

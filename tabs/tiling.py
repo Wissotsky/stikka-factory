@@ -2,15 +2,23 @@
 
 import logging
 import streamlit as st
-import os
-import io
 from PIL import Image
 
-logger = logging.getLogger("sticker_factory.tabs.tiling")
 
 from utils import fetch_image_from_url
 
-def render(preper_image, print_image, printer_info, determine_tile_rows, split_image_into_tiles, create_tile_preview):
+from image_utils import (
+    determine_tile_rows,
+    split_image_into_tiles,
+    create_tile_preview,
+)
+from printer_utils import (
+    print_image,
+)
+
+logger = logging.getLogger("sticker_factory.tabs.tiling")
+
+def render(printer_info):
     """Render the Tiling tab."""
     st.subheader(":printer: tiling mode")
     st.markdown("Upload an image to split it into 2 rows of labels")

@@ -2,12 +2,20 @@
 
 import logging
 
-logger = logging.getLogger("sticker_factory.tabs.label")
 
 # This tab requires many helper functions from the main file
 # Import and use from printit.py context
 
-def render(printer_info, get_fonts, find_url, preper_image, print_image, img_concat_v):
+from image_utils import (
+    img_concat_v,
+)
+from printer_utils import (
+    print_image,
+)
+
+logger = logging.getLogger("sticker_factory.tabs.label")
+
+def render(printer_info, get_fonts, find_url):
     """Render the Label tab - implementation from main printit.py."""
     import streamlit as st
     import os
@@ -80,7 +88,7 @@ def render(printer_info, get_fonts, find_url, preper_image, print_image, img_con
         font = st.session_state.selected_font
 
         try:
-            test_font = ImageFont.truetype(font, 12)
+            ImageFont.truetype(font, 12)
         except OSError:
             working_font = None
             system_fonts = [
@@ -102,7 +110,7 @@ def render(printer_info, get_fonts, find_url, preper_image, print_image, img_con
                 st.warning(f"Custom fonts not available, using system font: {working_font}")
             else:
                 try:
-                    test_default = ImageFont.load_default()
+                    ImageFont.load_default()
                     font = None
                     st.warning("No TrueType or OpenType fonts available, using PIL default font")
                 except Exception:

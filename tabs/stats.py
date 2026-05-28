@@ -4,6 +4,7 @@ import logging
 import streamlit as st
 from datetime import datetime, timedelta
 
+
 logger = logging.getLogger("sticker_factory.tabs.stats")
 
 # Lazy import stats_utils to avoid import-time issues

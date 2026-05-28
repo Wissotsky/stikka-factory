@@ -3,17 +3,23 @@
 import logging
 import streamlit as st
 import requests
-from io import BytesIO
-from PIL import Image
-import os
 
 import random
 
-logger = logging.getLogger("sticker_factory.tabs.openverse")
 
 from utils import fetch_image_from_url
 
-def render(preper_image,printer_info, print_image, preset_query=None):
+from image_utils import (
+    preper_image,
+)
+from printer_utils import (
+    print_image,
+)
+
+logger = logging.getLogger("sticker_factory.tabs.openverse")
+
+
+def render(printer_info, preset_query=None):
     search_query = None
     allow_custom_search = True
     visible_name_string = "Openverse"
@@ -37,7 +43,7 @@ def render(preper_image,printer_info, print_image, preset_query=None):
     if search_query:
         if st.button(f"Fetch {visible_name_string}"):
             try:
-                random_int = random.randint(1,240);
+                random_int = random.randint(1,240)
                 # Get image URL
                 response = requests.get(
                     "https://api.openverse.org/v1/images/",

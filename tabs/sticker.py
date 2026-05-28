@@ -4,13 +4,20 @@ import logging
 import streamlit as st
 import os
 from PIL import Image
-import io
-
-logger = logging.getLogger("sticker_factory.tabs.sticker")
 
 from utils import fetch_image_from_url
 
-def render(preper_image, print_image,printer_info):
+from image_utils import (
+    preper_image,
+)
+from printer_utils import (
+    print_image,
+)
+
+logger = logging.getLogger("sticker_factory.tabs.sticker")
+
+
+def render(printer_info):
     """Render the Sticker tab."""
     st.subheader(":printer: a sticker")
 

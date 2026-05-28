@@ -1,11 +1,16 @@
 """Webcam tab content."""
 
 import streamlit as st
-import os
 from PIL import Image
 
+from image_utils import (
+    preper_image,
+)
+from printer_utils import (
+    print_image,
+)
 
-def render(preper_image,printer_info, print_image):
+def render(printer_info):
     """Render the Webcam tab."""
     st.subheader(":printer: a selfie")
     on = st.toggle("ask user for camera permission")

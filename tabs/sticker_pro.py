@@ -2,14 +2,23 @@
 
 import logging
 import streamlit as st
-import requests
-import io
 import os
 from PIL import Image, ImageOps, ImageDraw, ImageFont
 
-logger = logging.getLogger("sticker_factory.tabs.sticker_pro")
 
 from utils import fetch_image_from_url
+
+from image_utils import (
+    preper_image,
+    resize_image_to_width,
+    add_border,
+    apply_histogram_equalization,
+    apply_threshold,
+)
+from printer_utils import (
+    print_image,
+)
+logger = logging.getLogger("sticker_factory.tabs.sticker_pro")
 
 def make_meme_text(image, top_text, bottom_text, font_size=20, outline_width=3):
     """Add Impact-style meme text to top and bottom of image."""
@@ -83,8 +92,7 @@ def make_meme_text(image, top_text, bottom_text, font_size=20, outline_width=3):
     return meme_image
 
 
-def render(print_image,printer_info, apply_threshold, add_border, apply_histogram_equalization, 
-           resize_image_to_width, preper_image):
+def render(printer_info):
     """Render the Sticker Pro tab."""
     st.subheader(":printer: a sticker for pros")
     

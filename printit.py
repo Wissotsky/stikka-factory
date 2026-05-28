@@ -3,14 +3,11 @@ import glob
 import os
 import re
 import time
-import hashlib
+#import hashlib
 import logging
-from pathlib import Path
-from brother_ql import labels
+#from pathlib import Path
+#from brother_ql import labels
 
-# Initialize logging configuration (must be done first!)
-import logging_config
-logger = logging.getLogger("sticker_factory.printit")
 
 # Import centralized config (loads once at startup)
 from config_manager import (
@@ -22,24 +19,14 @@ from config_manager import (
 
 # Tabs get imported only when enabled in config.toml
 
-
-# Import image utilities
-from image_utils import (
-    preper_image,
-    apply_threshold,
-    resize_image_to_width,
-    add_border,
-    apply_histogram_equalization,
-    img_concat_v,
-    determine_tile_rows,
-    split_image_into_tiles,
-    create_tile_preview,
-)
 from printer_utils import (
     find_and_parse_printer,
-    print_image,
-    # get_label_type
 )
+
+# Initialize logging configuration (must be done first!)
+import logging_config  # noqa: F401
+logger = logging.getLogger("sticker_factory.printit")
+
 
 def get_enabled_tabs():
     """Return list of enabled tab names from config, excluding History if privacy_mode is true."""
@@ -281,8 +268,6 @@ else:
                     import tabs.sticker as sticker_module
                     sticker_module.render(
                         printer_info=selected_printer,
-                        preper_image=preper_image,
-                        print_image=print_image,
                     )
                 elif tab_name == "Label":
                     import tabs.label as label_module
@@ -290,44 +275,26 @@ else:
                         printer_info=selected_printer,
                         get_fonts=get_fonts,
                         find_url=find_url,
-                        preper_image=preper_image,
-                        print_image=print_image,
-                        img_concat_v=img_concat_v,
                     )
                 elif tab_name == "Webcam":
                     import tabs.webcam as webcam_module
                     webcam_module.render(
                         printer_info=selected_printer,
-                        preper_image=preper_image,
-                        print_image=print_image,
                     )
                 elif tab_name == "Sticker Pro":
                     import tabs.sticker_pro as sticker_pro_module    
                     sticker_pro_module.render(
-                        print_image=print_image,
-                        apply_threshold=apply_threshold,
-                        add_border=add_border,
-                        apply_histogram_equalization=apply_histogram_equalization,
-                        resize_image_to_width=resize_image_to_width,
-                        preper_image=preper_image,
                         printer_info=selected_printer,
                     )
                 elif tab_name == "Tiling":
                     import tabs.tiling as tiling_module
                     tiling_module.render(
-                        preper_image=preper_image,
-                        print_image=print_image,
                         printer_info=selected_printer,
-                        determine_tile_rows=determine_tile_rows,
-                        split_image_into_tiles=split_image_into_tiles,
-                        create_tile_preview=create_tile_preview,
                     )
                 elif tab_name == "History":
                     import tabs.history as history_module
                     history_module.render(
                         list_saved_images=list_saved_images,
-                        print_image=print_image,
-                        preper_image=preper_image,
                     )
                 elif tab_name == "Stats":
                     # Stats tab disabled on Raspberry Pi due to SIGILL compatibility issues
@@ -347,8 +314,6 @@ else:
                     import tabs.openverse as openverse_module
                     openverse_module.render(
                         printer_info=selected_printer,
-                        preper_image=preper_image,
-                        print_image=print_image,
                     )
                 elif tab_name.startswith("?"):
                     parsed_tab_name = tab_name[1::].split(":")
@@ -357,8 +322,6 @@ else:
                         import tabs.openverse as openverse_module
                         openverse_module.render(
                             printer_info=selected_printer,
-                            preper_image=preper_image,
-                            print_image=print_image,
                             preset_query = query,
                         )
                     else:

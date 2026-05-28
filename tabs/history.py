@@ -7,8 +7,15 @@ from datetime import datetime
 
 from config_manager import ITEMS_PER_PAGE
 
+from image_utils import (
+    preper_image,
+)
+from printer_utils import (
+    print_image,
+)
 
-def render(list_saved_images, print_image, preper_image):
+
+def render(list_saved_images):
     """Render the History tab."""
     st.subheader("Gallery of Labels and Stickers")
     

@@ -130,3 +130,4 @@ debug/*
 
 # stats
 print_stats.json
+print_stats.db

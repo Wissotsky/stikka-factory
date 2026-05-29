@@ -57,14 +57,14 @@ def render(printer_info):
         
         # Create and show preview
         preview_image = create_tile_preview(tiles, label_width)
-        st.image(preview_image, caption=f"Preview: {num_rows} tiles arranged vertically", use_container_width=True)
+        st.image(preview_image, caption=f"Preview: {num_rows} tiles arranged vertically", width='stretch')
         
         # Show individual tiles in columns
         st.subheader("Individual Tiles")
         cols = st.columns(num_rows)
         for i, (col, tile) in enumerate(zip(cols, tiles)):
             with col:
-                st.image(tile, caption=f"Tile {i+1}/{num_rows} ({tile.width}x{tile.height}px)", use_container_width=True)
+                st.image(tile, caption=f"Tile {i+1}/{num_rows} ({tile.width}x{tile.height}px)", width='stretch')
         
         # Print options
         st.subheader("Print Options")

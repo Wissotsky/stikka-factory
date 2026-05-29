@@ -105,7 +105,7 @@ def render():
     # Line chart - Streamlit can handle dict of dicts
     st.subheader("Prints Over Time")
     try:
-        st.line_chart(chart_data, use_container_width=True)
+        st.line_chart(chart_data, width='stretch')
     except Exception as e:
         logger.warning(f"Error rendering line chart: {e}")
         # Fallback to simple display
@@ -122,7 +122,7 @@ def render():
         # Create bar chart data - Streamlit accepts dict directly
         totals_sorted = dict(sorted(totals.items(), key=lambda x: x[1], reverse=True))
         try:
-            st.bar_chart(totals_sorted, use_container_width=True)
+            st.bar_chart(totals_sorted, width='stretch')
         except Exception as e:
             logger.warning(f"Error rendering bar chart: {e}")
         

@@ -21,6 +21,20 @@ Traceback (most recent call last):
   File "<frozen importlib._bootstrap>", line 701, in _load_unlocked
 KeyError: 'job_queue'
 ```
+
+```
+2026-05-29 09:34:19.344 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'` or specify an integer width.
+2026-05-29 09:34:19.362 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'` or specify an integer width.
+
+```
 ## DONE
 
 Remove PDF file support(not worth the external dependency)
